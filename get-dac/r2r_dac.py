@@ -17,7 +17,7 @@ class R2R_DAC:
     def set_number(self, number):
         num = [int(element) for element in bin(number)[2:].zfill(8)]
         print(num)
-        sleep_time = 0.02
+        sleep_time = 0.0002
         for i in range(len(self.gpio_bits)):
             if num[i] == 1:
                 GPIO.output(self.gpio_bits[i], 1)
