@@ -37,11 +37,14 @@ class R2R_ADC:
         value = 0
         for bit in [128, 64, 32, 16, 8, 4, 2, 1]:
             maybe_value = value | bit
-            number = self.number_to_dac(maybe_value)
+            GPIO.output(self.bits_gpio, self.number_to_dac(maybe_value))
             comp = GPIO.input(self.comp_gpio)
+            time.sleep(0.1)
             if comp == 0:
                 value = maybe_value
         GPIO.output(self.bits_gpio, 0)
+        return value
+        
     def get_sar_voltage(self):
         number = self.successive_approximation_adc()
         voltage = self.dynamic_range * number / 255
@@ -50,7 +53,7 @@ if __name__ == "__main__":
     try:
         adc = R2R_ADC(3.290, 0.01, False)
         while True:
-            voltage = adc.get_sc_voltage()
+            voltage = adc.get_sar_voltage()
             print(f"Напряжение {voltage} B")
     finally:
         adc = R2R_ADC(3.290, 0.01, False)
