@@ -39,7 +39,7 @@ class R2R_ADC:
             maybe_value = value | bit
             GPIO.output(self.bits_gpio, self.number_to_dac(maybe_value))
             comp = GPIO.input(self.comp_gpio)
-            time.sleep(0.1)
+            time.sleep(0.001)
             if comp == 0:
                 value = maybe_value
         GPIO.output(self.bits_gpio, 0)
@@ -50,11 +50,12 @@ class R2R_ADC:
         voltage = self.dynamic_range * number / 255
         return voltage
 if __name__ == "__main__":
+    adc = R2R_ADC(3.160, 0.01, False)
     try:
-        adc = R2R_ADC(3.290, 0.01, False)
+        
         while True:
-            voltage = adc.get_sar_voltage()
+            voltage = adc.get_sc_voltage()
             print(f"Напряжение {voltage} B")
     finally:
-        adc = R2R_ADC(3.290, 0.01, False)
+        #adc = R2R_ADC(3.160, 0.01, False)
         adc.deinit()
