@@ -16,15 +16,13 @@ a = np.zeros((str, 2))
 
 j.initSpiAdc()
 j.initStepMotorGpio()
-for i in range (str):
+for i in range(str):
     const = j.getAdc()
     if const > 1000000:
-        a[i, 0]= a[i - 1, 0]
+        a[i, 0] = a[i - 1, 0]
     else:
         a[i, 0] = const
-    a[i, 1]=(i)
     j.stepBackward(step)
-    #j.stepForward(step)
     j.time.sleep(0.2)
 j.deinitSpiAdc()
 
